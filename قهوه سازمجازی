@@ -1,0 +1,99 @@
+menu = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+    "money": 100
+}
+profit = 0
+
+def is_resource_sufficient(order_ingerdients):
+    '''return when order can made'''
+    for item in order_ingerdients:
+        is_enough = True
+        if order_ingerdients[item] >= resources[item]:
+            print(f'sorry there is not enough {item} ')
+            return False
+        return is_enough
+
+def procrs_coin():
+    '''shoe the value of the coins'''
+    print('plase insert cions ')
+    total = int(input('how many quarter do you have : ')) * 0.25
+    total += int(input('how many dime do you have : ')) * 0.1
+    total += int(input('how many nickel do you have : ')) * 0.05
+    total += int(input('how many penny do you have : ')) * 0.01
+    return total
+
+def transaction_successful(money_recevide,drink_cost):
+    '''return ture when money enough or return flase'''
+    if money_recevide >= drink_cost:
+        change =round(money_recevide - drink_cost,2)
+        print(f'here is your change {change}')
+        global profit
+        profit += drink_cost
+        return  True
+    else:
+        print('sorry that wasnt enogh money')
+        return  False
+def make_coffe(drink_name,order_ingerdients):
+    '''makr the coffe and deduct the required from the resores'''
+    for item in order_ingerdients:
+        resources[item] -= order_ingerdients[item]
+    print(f'here is your {drink_name}')
+
+
+is_on = True
+while is_on:
+    chose = input('what do you want (expresso,latte,cappuccino) ')
+    if chose == 'off':
+        is_on = False
+    elif chose == 'report':
+       print(f"water: {resources['water']}")
+       print(f"milk: {resources['milk']}")
+       print(f"coffee: {resources['coffee']}")
+       print(f"money: {profit}")
+    else:
+        drink = menu[chose]
+        if is_resource_sufficient(drink['ingredients']):
+
+            payment = procrs_coin()
+            if transaction_successful(payment,drink['cost']):
+                make_coffe(chose,drink['ingredients'])
+                
+                
+                
+                
+
+
+
+
+
+
+
+
